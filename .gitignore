@@ -1,0 +1,5 @@
+.vscode/
+.vs/
+
+# Linux binary
+main
