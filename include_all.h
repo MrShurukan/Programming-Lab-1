@@ -3,7 +3,6 @@
 
 #include <math.h>
 #include <time.h>
-#include <vector>
 #include <set>
 #include <algorithm>
 #include "tasks.h"
