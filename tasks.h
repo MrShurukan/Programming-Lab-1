@@ -1,12 +1,4 @@
-#ifndef FUNCTIONS
-#define print(x) std::cout << x << '\n'
-#define printVar(x) std::cout << "Значение " #x ": " << x << '\n'
-
-#define getDef(type, name) type name; std::cout << "Введите " #name ": "; std::cin >> name
-#define get(name) std::cout << "Введите " #name ": "; std::cin >> name
-
 #include <iostream>
-#endif
 
 
 void task1() {
@@ -17,77 +9,75 @@ void task2() {
     int a = 3, b = 3.14;
     double c = 3, d = 3.14;
     
-    print(a);
-    print(b);
-    print(c);
-    print(d);
+    std::cout << a << '\n'
+        << b << '\n'
+        << c << '\n'
+        << d << '\n';
 }
 
 #define printMath(a, b) std::cout << a + b << ' ' << a - b << ' ' << a * b << ' ' << a / b << '\n'
 void task3() {
-    getDef(int, int1);
-    getDef(int, int2);
+    int int1, int2;
+    std::cin >> int1 >> int2;
     printMath(int1, int2);
 
-    getDef(double, double1);
-    getDef(double, double2);
+    double double1, double2;
+    std::cin >> double1 >> double2;
     printMath(double1, double2);
 
-    getDef(double, int21);
-    getDef(double, double21);
+    int int21;
+    double double21;
+    std::cin >> int21 >> double21;
     printMath(int21, double21);
 
-    getDef(double, double31);
-    getDef(int, int31);
+    double double31;
+    int int31;
+    std::cin >> double31 >> int31;
     printMath(double31, int31);
 }
 
 void task4() {
-    getDef(int, a);
-    getDef(int, b);
+    int a, b;
+    std::cin >> a >> b;
 
-    printVar(a);
-    printVar(b);
+    std::cout << "До: " << a << b << '\n';
 
     std::swap(a, b);
 
-    printVar(a);
-    printVar(b);
+    std::cout << "После: " << a << b << '\n';
+    std::cout << "До: " << a << b << '\n';
 
     a = a + b;
     b = a - b;
     a = a - b;
 
-    printVar(a);
-    printVar(b);
+    std::cout << "После: " << a << b << '\n';
 }
 
 void task5() {
     const double g = -9.8;
-    getDef(double, x0);
-    getDef(double, v0);
-    getDef(double, t);
+    double x0, v0, t;
+    std::cin >> x0 >> v0 >> t;
 
-    print(x0 + v0*t + (g*t*t) / 2);
+    std::cout << x0 + v0*t + (g*t*t) / 2 << '\n';
 }
 
 void task6() {
-    getDef(double, a);
-    getDef(double, b);
-    getDef(double, c);
+    double a, b, c;
+    std::cin >> a >> b >> c;
 
     if (a == 0 && b == 0) {
-        std::cout << "Корни уравнения: (-Inf, Inf)" << std::endl;
+        std::cout << "Корни уравнения: (-Inf, Inf)\n";
         return;
     }
 
     if (a == 0) {
         // Это не квадратное уравнение, решаем как обычное
         if (b == 0) {
-            print("Корень уравнения: 0");
+            std::cout << "Корень уравнения: 0\n";
         }
         else {
-            std::cout << "Корень уравнения: " << -(c / b) << std::endl;
+            std::cout << "Корень уравнения: " << -(c / b) << '\n';
         }
 
         return;
@@ -95,11 +85,11 @@ void task6() {
 
     double D = b*b - 4*a*c;
     if (D < 0) {
-        print("Действительных корней нет.");
+        std::cout << "Действительных корней нет.";
         return;
     }
     else if (D == 0) {
-        std::cout << "Корень уравнения: " << -b / 2*a << std::endl;
+        std::cout << "Корень уравнения: " << -b / 2*a << '\n';
         return;
     }
 
@@ -107,23 +97,22 @@ void task6() {
     double x1 = (-b + sqrtD) / 2*a;
     double x2 = (-b - sqrtD) / 2*a;
 
-    printVar(x1);
-    printVar(x2);
+    std::cout << "Корни уравнения: x1:" << x1 << ", x2: " << x2 << '\n';
 }
 
 #define sqr(x) (x) * (x)
 #define getLength(xa, ya, xb, yb) std::sqrt(sqr(xb - xa) + sqr(yb - ya)) 
 void task7() {
-    std::cout << "1 - длины сторон, 2 - координаты вершин" << std::endl;
-    getDef(int, method);
+    std::cout << "1 - длины сторон, 2 - координаты вершин\n";
+    int method;
+    std::cin >> method;
     
     double square;
     double a, b, c;
     switch (method) {
         case 1:
-            get(a);
-            get(b);
-            get(c);
+            std::cout << "a, b, c: ";
+            std::cin >> a >> b >> c;
             break;
         case 2:
             double Xa, Ya;
@@ -144,12 +133,12 @@ void task7() {
             break;
 
         default:
-            print("Некорректный метод");
+            std::cout << "Некорректный метод\n";
             return;
     }
     double p = (a + b + c) / 2;
     square = std::sqrt(p * (p - a) * (p - b) * (p - c));
-    printVar(square);
+    std::cout << square << '\n';
 }
 
 void task8() {
@@ -159,25 +148,26 @@ void task8() {
     std::cin >> a >> op >> b;
     switch(op) {
         case '+':
-            print(a + b);
+            std::cout << a + b;
             break;
         case '-':
-            print(a - b);
+            std::cout << a - b;
             break;
         case '*':
-            print(a * b);
+            std::cout << a * b;
             break;
         case '/':
             if (b == 0) { 
-                print("Ошибка, деление на ноль!");
+                std::cout << "Ошибка, деление на ноль!";
                 return;
             }
-            print(a / b);
+            std::cout << a / b;
             break;
 
         default:
-            print("Неизвестный оператор");
+            std::cout << "Неизвестный оператор";
     }
+    std::cout << '\n';
 }
 
 void task9() {
@@ -190,25 +180,26 @@ void task9() {
         int attemps = 5;
 
         int guess;
-        print("Угадайте число от 1 до 100: (У вас пять попыток)");
+        std::cout << "Угадайте число от 1 до 100: (У вас пять попыток)\n";
         while (!isGuessed && attemps > 0) {
             std::cin >> guess;
             attemps--;
 
             if (n < guess) {
-                print("Заданное число меньше");
+                std::cout << "Заданное число меньше";
             }
             else if (n > guess) {
-                print("Заданное число больше");
+                std::cout << "Заданное число больше";
             }
             else {
-                print("Поздравляю! Вы угадали");
+                std::cout << "Поздравляю! Вы угадали";
                 isGuessed = true;
             }
+            std::cout << '\n';
         }
 
         if (attemps == 0 && !isGuessed) {
-            std::cout << "Вы проиграли. Было загадано: " << n << std::endl;
+            std::cout << "Вы проиграли. Было загадано: " << n << '\n';
         }
 
         int answ;
@@ -216,7 +207,7 @@ void task9() {
         std::cin >> answ;
         if (answ != 1) userWantsToExit = true;
     }
-    print("До новых встрех!");
+    std::cout << "До новых встрех!\n";
 }
 
 void task10() {
@@ -228,39 +219,42 @@ void task10() {
     for (int i = 1; i < power; i++)
         result *= base;
     
-    print(result);
+    std::cout << result;
 }
 
 void task11() {
-    getDef(int, n);
+    int n;
+    std::cin >> n;
 
     long long result = 1;
     for (int i = 2; i <= n; i++)
         result *= i;
 
-    print(result);
+    std::cout << result;
 }
 
 void task12() {
-    getDef(int, n);
+    int n;
+    std::cin >> n;
 
     int root = std::sqrt(n);
     for (int i = 2; i <= root; i++)
         if (n % i == 0) {
-            print("Составное");
+            std::cout << "Составное\n";
             return;
         }
 
-    print("Простое");
+    std::cout << "Простое\n";
 }
 
 void task13() {
-    getDef(long long, n);
+    long long n;
+    std::cin >> n;
     int amount = 0;
     for (long long x = 1; x <= n; x *= 2)
         amount++;
     
-    print(amount);
+    std::cout << amount << '\n';
 }
 
 #define ll long long
@@ -304,7 +298,9 @@ void printSet(std::multiset<int> s) {
 }
 
 void task15() {
-    getDef(int, n);
+    int n;
+    std::cin >> n;
+
     std::multiset<int> s;
 
     int a;
