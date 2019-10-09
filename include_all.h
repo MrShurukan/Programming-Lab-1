@@ -1,8 +1,8 @@
 #ifndef include_all
 #define include_all
 
-#include <math.h>
-#include <time.h>
+#include <cmath>
+#include <ctime>
 #include <set>
 #include <algorithm>
 #include "tasks.h"

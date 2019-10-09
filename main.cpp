@@ -1,12 +1,13 @@
 #include <iostream>
+#include <locale>
 #include "include_all.h"
 
 int main() {
-    setlocale(LC_ALL, "Russian");
+    std::setlocale(LC_ALL, "Russian");
 
     int taskNumber = 0;
     while (true) {
-        std::cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ð½Ð¾Ð¼ÐµÑ€ Ð·Ð°Ð´Ð°Ð½Ð¸Ñ: ";
+        std::cout << "Ââåäèòå íîìåð çàäàíèÿ: ";
         std::cin >> taskNumber;
 
         if (taskNumber == 0) break;
@@ -15,6 +16,6 @@ int main() {
         std::cout << '\n';
     }
 
-    std::cout << "ÐŸÑ€ÐµÑ€Ð²Ð°Ð½Ð¾.\n";
+    std::cout << "Ïðåðâàíî.\n";
     return 0;
 }
