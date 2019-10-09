@@ -287,7 +287,7 @@ void task14() {
     }
 }
 
-void printSet(std::multiset<int> s) {
+void printSet(const std::multiset<int>& s) {
     int size = s.size();
     int maxLength = (size < 5 ? size : 5);
 
@@ -313,4 +313,44 @@ void task15() {
 
         printSet(s);
     }
+}
+
+std::map<int, int> factAmount;
+void factorization(int n) {
+    if (n == 1) {
+        std::cout << "-\n";
+        return;
+    }
+
+    for (int i = 2; i*i <= n; i++) {    // ¬озможные делители наход€тс€ в диапазоне от [2, sqrt(n)]
+        if (n % i == 0) {
+            factAmount[i]++;
+            factorization(n / i);   // „исло i - одно из делителей. ќставшеес€ число n / i требуетс€ проверить этим же способом
+            return;
+        }
+    }
+
+    // ÷икл завершилс€ без нахождени€ ни одного делител€ => число простое и его нужно добавить как делитель
+    factAmount[n]++;
+
+    // ‘инальна€ точка программы, вывод ответа:
+    for (auto i = factAmount.begin(); i != factAmount.end(); i++) {
+        int fact = i->first, amount = i->second;
+
+        // ¬ыводим звездочку перед каждым, кроме первого
+        if (i != factAmount.begin()) std::cout << '*';
+
+        std::cout << fact;
+        if (amount > 1) std::cout << "^" << amount;
+    }
+    std::cout << '\n';
+}
+
+void task16() {
+    int n;
+    std::cout << "¬ведите n: ";
+    std::cin >> n;
+
+    factAmount.clear();    // ќчищаем map от возможных прошлых вычислений
+    factorization(n);
 }

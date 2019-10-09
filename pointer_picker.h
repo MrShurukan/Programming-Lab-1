@@ -22,6 +22,8 @@ voidptr pickTask(int number) {
         case 13: return task13;
         case 14: return task14;
         case 15: return task15;
+        case 16: return task16;
+        case 17: return task17;
 
         default:
             return deft;
