@@ -1,5 +1,5 @@
 #include <iostream>
-#include <locale>
+#include <clocale>
 #include "include_all.h"
 
 int main() {
