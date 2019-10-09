@@ -172,19 +172,21 @@ void task8() {
 }
 
 void task9() {
+    std::random_device rd;
+    std::mt19937 mersenne(rd()); // инициализируем Вихрь Мерсенна случайным стартовым числом
+
     bool userWantsToExit = false;
     while (!userWantsToExit) {
-        srand(time(0));
-        int n = rand() % 101;
+        int n = static_cast<int>(mersenne() % 101);
 
         bool isGuessed = false;
-        int attemps = 5;
+        int attempts = 5;
 
         int guess;
         std::cout << "Угадайте число от 1 до 100: (У вас пять попыток)\n";
-        while (!isGuessed && attemps > 0) {
+        while (!isGuessed && attempts > 0) {
             std::cin >> guess;
-            attemps--;
+            attempts--;
 
             if (n < guess) {
                 std::cout << "Заданное число меньше";
@@ -199,7 +201,7 @@ void task9() {
             std::cout << '\n';
         }
 
-        if (attemps == 0 && !isGuessed) {
+        if (attempts == 0 && !isGuessed) {
             std::cout << "Вы проиграли. Было загадано: " << n << '\n';
         }
 
