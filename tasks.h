@@ -354,3 +354,24 @@ void task16() {
     factAmount.clear();    // Очищаем map от возможных прошлых вычислений
     factorization(n);
 }
+
+// Возвращает индекс массы тела.
+double BMI(double weight, double height) {
+    return weight / (height * height);
+}
+
+// Принимает численное значение ИМТ и печатает на экран соответствующую категорию
+void printBMI(double BMI) {
+    if (BMI < 18.5)         std::cout << "Underweight\n";
+    else if (BMI < 25.0)    std::cout << "Normal\n";
+    else if (BMI < 30.0)    std::cout << "Overweight\n";
+    else                    std::cout << "Obesity\n";
+}
+
+void task17() {
+    double weight, height;
+    std::cout << "Введите вес и рост: ";
+    std::cin >> weight >> height;
+
+    printBMI( BMI(weight, height / 100) );
+}
