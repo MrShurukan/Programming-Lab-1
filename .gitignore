@@ -6,6 +6,9 @@ cmake-build-debug/
 # Linux binary
 main
 
+# Windows binary
+main.exe
+
 # User-specific files
 *.rsuser
 *.suo

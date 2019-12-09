@@ -8,7 +8,7 @@ void task1() {
 void task2() {
     int a = 3, b = 3.14;
     double c = 3, d = 3.14;
-    
+
     std::cout << a << '\n'
         << b << '\n'
         << c << '\n'
@@ -102,12 +102,12 @@ void task6() {
 }
 
 #define sqr(x) (x) * (x)
-#define getLength(xa, ya, xb, yb) std::sqrt(sqr(xb - xa) + sqr(yb - ya)) 
+#define getLength(xa, ya, xb, yb) std::sqrt(sqr(xb - xa) + sqr(yb - ya))
 void task7() {
     std::cout << "1 - длины сторон, 2 - координаты вершин\n";
     int method;
     std::cin >> method;
-    
+
     double square;
     double a, b, c;
     switch (method) {
@@ -158,7 +158,7 @@ void task8() {
             std::cout << a * b;
             break;
         case '/':
-            if (b == 0) { 
+            if (b == 0) {
                 std::cout << "Ошибка, деление на ноль!";
                 return;
             }
@@ -221,7 +221,7 @@ void task10() {
     double result = base;
     for (int i = 1; i < power; i++)
         result *= base;
-    
+
     std::cout << result;
 }
 
@@ -256,7 +256,7 @@ void task13() {
     int amount = 0;
     for (long long x = 1; x <= n; x *= 2)
         amount++;
-    
+
     std::cout << amount << '\n';
 }
 
@@ -291,8 +291,8 @@ void printSet(const std::multiset<int>& s) {
     int size = s.size();
     int maxLength = (size < 5 ? size : 5);
 
-    for (auto i = std::next(s.rbegin(), size - maxLength); 
-            i != s.rend(); 
+    for (auto i = std::next(s.rbegin(), size - maxLength);
+            i != s.rend();
             i++)
     {
         std::cout << *i << " ";
@@ -374,4 +374,112 @@ void task17() {
     std::cin >> weight >> height;
 
     printBMI( BMI(weight, height / 100) );
+}
+
+void task18() {
+    srand( time(nullptr) );
+
+    const int size = 20;
+    int arr[size];
+
+    int min = 101, max = -101;
+    for (int i = 0; i < size; i++) {
+        arr[i] = rand() % 201 - 100;
+
+        std::cout << arr[i] << ' ';
+
+        if (arr[i] < min) min = arr[i];
+        if (arr[i] > max) max = arr[i];
+    }
+    std::cout << '\n' << min << '\n' << max << '\n';
+}
+
+void task19() {
+    int count[10] = {0, };
+
+    int n;
+    std::cin >> n;
+    for (int i = 0; i < n; i++) {
+        int entry;
+        std::cin >> entry;
+
+        count[entry]++;
+    }
+
+    for (int i = 0; i < 10; i++) {
+        if (count[i] != 0)
+            std::cout << i << ": " << count[i] << std::endl;
+    }
+}
+
+void sort(long long arr[], int n) {
+    for (int j = 0; j < n; j++) {
+
+        bool isUnsorted = false;
+        for (int i = 0; i < n - j - 1; i++) {
+            if (arr[i] > arr[i + 1]) {
+                std::swap(arr[i], arr[i + 1]);
+                isUnsorted = true;
+            }
+        }
+
+        if (!isUnsorted) return;
+    }
+}
+
+void printArray(long long arr[], int n) {
+    for (int i = 0; i < n; i++) {
+        std::cout << arr[i] << ' ';
+    }
+}
+
+void task20() {
+    int n;
+    std::cin >> n;
+
+    long long arr[100000];
+
+    for (int i = 0; i < n; i++) std::cin >> arr[i];
+    sort(arr, n);
+    printArray(arr, n);
+}
+
+void task21() {
+    srand( time(nullptr) );
+
+    const int rows = 10, columns = 8;
+    int arr[columns][rows] = {{0,}, };
+
+    int rndCol = rand() % columns,
+        rndRow = rand() % rows;
+
+    arr[rndCol][rndRow] = -1;
+
+    int attempts = 5;
+    while (attempts) {
+        int row, col;
+        std::cin >> row >> col;
+
+        if (row >= rows || col >= columns) {
+            std::cout << "Выход за границу массива\n";
+            continue;
+        }
+
+        if (arr[col][row] == -1) {
+            std::cout << "Вы угадали\n";
+            return;
+        }
+        else {
+            if (arr[col][row] == 0) {
+                std::cout << "Нет\n";
+                attempts--;
+            }
+            else {
+                std::cout << "Эту уже проверяли\n";
+            }
+            arr[col][row]++;
+        }
+    }
+
+    std::cout << "GAME OVER\n";
 }

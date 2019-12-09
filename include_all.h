@@ -7,7 +7,7 @@
 #include <algorithm>
 #include <random>
 #include <map>
-#include "tasks.h"
+#include "tasks.cpp"
 #include "pointer_picker.h"
 
 #endif
