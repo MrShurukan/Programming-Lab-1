@@ -1,6 +1,4 @@
 #include <iostream>
-#include <cstring>
-#include <string>
 
 void task1() {
     std::cout << "Результат вычисления выражения 2+2*2 = " << 2 + 2 * 2;
@@ -542,6 +540,8 @@ bool isValid(char c) {
     return (c >= '0' && c <= '9') || (c >= 'A' && c <= 'z');
 }
 
+size_t strlen(const char* string);
+
 bool isPalindrome(char str[]) {
     int len = strlen(str);
 
@@ -579,8 +579,90 @@ void task23() {
     std::cout << (isPalindrome(str) ? "Палиндром\n" : "Не палиндром\n");
 }
 
-void task24() {
+size_t strlen(const char* string) {
+    size_t i = 0;
+    while (string[i++] != '\0');
 
+    return i - 1;
+}
+
+int strcmp(const char* string1, const char* string2) {
+    size_t i = 0;
+    while (string1[i] != '\0' && string2[i] != '\0') {
+        if (string1[i] != string2[i])
+            return string1[i] - string2[i];
+        i++;
+    }
+
+    return 0;
+}
+
+char* strstr(char* string1, const char* string2) {
+    size_t len1 = strlen(string1),
+           len2 = strlen(string2);
+
+    if (len2 > len1) return nullptr;
+
+    for (size_t i = 0; i <= len1 - len2; i++) {
+        bool stringsMatch = true;
+        size_t ind1 = i, ind2 = 0;
+
+        while (ind2 < len2) {
+            if (string1[ind1++] != string2[ind2++]) {
+                stringsMatch = false;
+                break;
+            }
+        }
+
+        if (stringsMatch) return string1 + i;
+    }
+
+    return nullptr;
+}
+
+char* strcat(char* destptr, const char* srcptr) {
+    size_t len1 = strlen(destptr),
+           len2 = strlen(srcptr);
+
+    for (size_t i = 0; i < len2; i++) {
+        destptr[len1 + i] = srcptr[i];
+    }
+    destptr[len1 + len2] = '\0';
+
+    return destptr;
+}
+
+void task24() {
+    char str1[101], str2[51];
+    std::cout << "Введите первую строку: ";
+    std::cin.ignore();
+    std::cin.getline(str1, 50);
+
+    std::cout << "Введите вторую строку: ";
+    std::cin.getline(str2, 50);
+
+    std::cout << strlen(str1) << ' ' << strlen(str2) << '\n';
+
+    int cmpresult = strcmp(str1, str2);
+    if (cmpresult == 0) {
+        std::cout << "Строки равны\n";
+    }
+    else if (cmpresult < 0) {
+        std::cout << "Строка 2 больше строки 1\n";
+    }
+    else {
+        std::cout << "Строка 1 больше строки 2\n";
+    }
+
+    char* substr = strstr(str1, str2);
+    if (substr == nullptr) {
+        std::cout << "-1\n";
+    }
+    else {
+        std::cout << static_cast<int>(substr - str1) << '\n';
+    }
+
+    std::cout << strcat(str1, str2) << '\n';
 }
 
 void task25() {
