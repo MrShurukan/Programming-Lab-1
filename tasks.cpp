@@ -1,5 +1,6 @@
 #include <iostream>
-
+#include <cstring>
+#include <string>
 
 void task1() {
     std::cout << "Результат вычисления выражения 2+2*2 = " << 2 + 2 * 2;
@@ -482,4 +483,126 @@ void task21() {
     }
 
     std::cout << "GAME OVER\n";
+}
+
+void swap(int* a, int* b) {
+    *a += *b;
+
+    *b = *a - *b;
+    *a = *a - *b;
+}
+
+int msort(int* a, int* b, int* c) {
+    // Сортируем первые два элемента между собой
+    if (*a > *b) swap(a, b);
+    // Убеждаемся, что справа стоит максимальный элемент
+    if (*b > *c) {
+        swap(b, c);
+
+        if (*a > *b) swap(a, b);    // Бывший правый элемент мог быть меньше, чем левый, ставим в нужную позицию
+    }
+
+    return *c;
+}
+
+void info(const int* var) {
+    std::cout << "Адрес: " << var << "; Значение: " << *var << '\n';
+}
+
+int* add(int* a, const int* b) {
+    *a = *a + *b;
+    return a;
+}
+
+void task22() {
+    int a = 2, b = 3, c = 1;
+    info(&a);
+    info(&b);
+    info(&c);
+
+    std::cout << "Максимум: " << msort(&a, &b, &c) << '\n';
+    info( add(&a, add(&b, &c)) );
+}
+
+char rusA  = static_cast<char>(192),
+     rusYa = static_cast<char>(223);
+
+char toLowerCase(char c) {
+    // Введена заглавная английская буква
+    if (c >= 'A' && c <= 'Z') {
+        return c + 32;      // Сдвиг до маленьких букв в таблице
+    }
+
+    // Остальное уже нам подходит
+    return c;
+}
+
+bool isValid(char c) {
+    // Все цифры и английские буквы
+    return (c >= '0' && c <= '9') || (c >= 'A' && c <= 'z');
+}
+
+bool isPalindrome(char str[]) {
+    int len = strlen(str);
+
+    // Для хранения "очищенной" строки
+    char* copy = new char[len + 1];
+
+    // Очистка строки от нежелаемых символов и перевод верхнего регистра в нижний
+    int copyI = 0;
+    for (int originI = 0; originI < len; originI++) {
+        char c = str[originI];
+
+        if (isValid(c)) {
+            copy[copyI++] = toLowerCase(c);
+        }
+    }
+
+    copy[copyI] = '\0';
+    len = copyI;    // copyI после цикла теперь можно рассматривать как длину строки copy
+
+    if (len == 0) return false;
+
+    for (int i = 0; i < len / 2; i++) {
+        if (copy[i] != copy[len-i-1]) return false;
+    }
+
+    return true;
+}
+
+void task23() {
+    char* str = new char[21];
+    std::cout << "Введите строку: ";
+    std::cin.ignore();
+    std::cin.getline(str, 21);
+
+    std::cout << (isPalindrome(str) ? "Палиндром\n" : "Не палиндром\n");
+}
+
+void task24() {
+
+}
+
+void task25() {
+
+}
+
+void task26() {
+
+}
+
+void task27() {
+
+}
+
+void task28() {
+
+}
+
+void task29() {
+
+}
+
+void task30() {
+
 }
