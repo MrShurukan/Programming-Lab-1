@@ -522,9 +522,6 @@ void task22() {
     info( add(&a, add(&b, &c)) );
 }
 
-char rusA  = static_cast<char>(192),
-     rusYa = static_cast<char>(223);
-
 char toLowerCase(char c) {
     // Введена заглавная английская буква
     if (c >= 'A' && c <= 'Z') {
@@ -571,10 +568,12 @@ bool isPalindrome(char str[]) {
 }
 
 void task23() {
-    char* str = new char[21];
+    const size_t max_size = 21;
+
+    char* str = new char[max_size];
     std::cout << "Введите строку: ";
     std::cin.ignore();
-    std::cin.getline(str, 21);
+    std::cin.getline(str, max_size);
 
     std::cout << (isPalindrome(str) ? "Палиндром\n" : "Не палиндром\n");
 }
@@ -665,8 +664,56 @@ void task24() {
     std::cout << strcat(str1, str2) << '\n';
 }
 
-void task25() {
+char surnames[][15] { "Ivanov ", "Sidorov ", "Zavyalov ", "Korzin ", "Pihtienko ", "Tanaev " };
+char initials[][5] { "I.V.", "A.A.", "B.E.", "A.I.", "I.I.", "T.G.", "V.L." };
 
+struct Student {
+    char name[101] = "";
+    int group;
+    uint8_t sec[5];
+};
+
+void initStudent(Student* s) {
+    strcat(s->name, surnames[rand() % 6]);
+    strcat(s->name, initials[rand() % 7]);
+
+    s->group = (rand() % 10) + 1;
+    for (int j = 0; j < 5; j++)
+        s->sec[j] = (rand() % 2) + 3;
+
+    if (rand() % 3 == 0) s->sec[0] = 2;
+}
+
+void printStudent(const Student & s) {
+    std::cout << s.name << '\t' << s.group << '\n';
+}
+
+bool studentCmp(const Student & s1, const Student & s2) {
+    return strcmp(s1.name, s2.name) >= 0;
+}
+
+bool hasBadMarks(const Student & s) {
+    for (int i = 0; i < 5; i++) {
+        if (s.sec[i] < 3) return true;
+    }
+
+    return false;
+}
+
+void task25() {
+    srand( time(nullptr) );
+    const int studAmount = 10;
+
+    Student students[studAmount];
+    for (int i = 0; i < studAmount; i++) {
+        initStudent(&students[i]);
+    }
+
+    std::sort(students, students + studAmount, studentCmp);
+
+    for (int i = 0; i < studAmount; i++) {
+        if ( hasBadMarks(students[i]) ) printStudent(students[i]);
+    }
 }
 
 void task26() {
