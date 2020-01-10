@@ -7,7 +7,7 @@ int main() {
 
     int taskNumber = 0;
     while (true) {
-        std::cout << "Ââåäèòå íîìåğ çàäàíèÿ: ";
+        std::cout << "Ğ’Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ Ğ½Ğ¾Ğ¼ĞµÑ€ Ğ·Ğ°Ğ´Ğ°Ğ½Ğ¸Ñ: ";
         std::cin >> taskNumber;
 
         if (taskNumber == 0) break;
@@ -16,6 +16,6 @@ int main() {
         std::cout << '\n';
     }
 
-    std::cout << "Ïğåğâàíî.\n";
+    std::cout << "ĞŸÑ€ĞµÑ€Ğ²Ğ°Ğ½Ğ¾.\n";
     return 0;
 }
