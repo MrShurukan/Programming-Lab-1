@@ -936,6 +936,84 @@ void task29() {
 
 }
 
-void task30() {
+int wordCount;
 
+char* strtok(char* string, const char* delim) {
+    static char* s_lastPos;
+    if (string != nullptr) {
+        s_lastPos = string;
+        wordCount = 0;
+    }
+
+    char* startPos = nullptr;
+
+    // Поиск стартовой позиции
+    for (int i = 0; s_lastPos[i] != '\0'; i++) {
+        bool canUseForStart = true;
+        for (int dI = 0; delim[dI] != '\0'; dI++) {
+            if (delim[dI] == s_lastPos[i]) {
+                canUseForStart = false;
+                break;
+            }
+        }
+
+        if (canUseForStart) {
+            startPos = s_lastPos + i;
+            break;
+        }
+    }
+
+    // Если стартовая позиция была не найдена
+    if (startPos == nullptr) {
+        s_lastPos[0] = '\0';
+        return nullptr;
+    }
+
+    // Поиск конца лексемы
+    for (int i = 0; startPos[i] != '\0'; i++) {
+        for (int dI = 0; delim[dI] != '\0'; dI++) {
+            if (delim[dI] == startPos[i]) {
+                startPos[i] = '\0';
+                s_lastPos = startPos + i + 1;
+                wordCount++;
+
+                return startPos;
+            }
+        }
+    }
+
+    // Если до конца строки не было найдено разделителей - остаток строки и есть лексема
+    s_lastPos = string + strlen(string);
+    wordCount++;
+    return startPos;
+}
+
+char* strcpy(char* destptr, const char* srcptr) {
+    for (int i = 0; i <= strlen(srcptr); i++) destptr[i] = srcptr[i];
+
+    return destptr;
+}
+
+void task30() {
+    std::string str, delims;
+    std::cin.ignore();
+
+    std::getline(std::cin, str);
+    std::getline(std::cin, delims);
+
+    char* c_str = new char[str.length()];
+    strcpy(c_str, str.c_str());
+    char* c_delims = new char[delims.length()];
+    strcpy(c_delims, delims.c_str());
+
+    char* lex = strtok(c_str, c_delims);
+    while (lex != nullptr) {
+        std::cout << lex << "\n";
+        lex = strtok(nullptr, c_delims);
+    }
+
+    std::cout << "Слов: " << wordCount << std::endl;
+
+    delete[] c_str;
+    delete[] c_delims;
 }
