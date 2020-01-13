@@ -794,8 +794,116 @@ void task26() {
     free(&intArray);
 }
 
-void task27() {
+struct Item {
+    enum ItemType {
+        eSword,
+        eBow,
+        eSpell
+    } itemType;
 
+    struct Sword {
+        int damage;
+    };
+
+    struct Bow {
+        int damage;
+        int charge_time;
+        double distance;
+    };
+
+    struct Spell {
+        int damage;
+        enum Element {
+            Fire,
+            Air,
+            Water,
+            Earth
+        } element;
+        double distance;
+    };
+
+    union {
+        Sword sword;
+        Bow bow;
+        Spell spell;
+    };
+};
+
+Item getRandomItem() {
+    Item it;
+
+    it.itemType = (Item::ItemType)(std::rand() % 3);
+    switch (it.itemType) {
+        case Item::ItemType::eSword:
+            it.sword.damage = std::rand() % 50 + 50;
+            break;
+        
+        case Item::ItemType::eBow:
+            it.bow.damage = std::rand() % 20 + 70;
+            it.bow.charge_time = std::rand() % 3 + 1;
+            it.bow.distance = (std::rand() % 400 + 200) / 10.0;
+            break;
+
+        case Item::ItemType::eSpell:
+            it.spell.damage = std::rand() % 40 + 10;
+            it.spell.element = (Item::Spell::Element)(std::rand() % 4);
+            it.spell.distance = (std::rand() % 400 + 200) / 10.0;
+            break;
+    }
+
+    return it;
+}
+
+void printItem(Item loot) {
+    switch (loot.itemType) {
+        case Item::ItemType::eSword:
+            std::cout << "---SWORD---\n";
+            std::cout << "Damage: " << loot.sword.damage << std::endl;
+            break;
+
+        case Item::ItemType::eBow:
+            std::cout << "---BOW---\n";
+            std::cout << "Damage: " << loot.bow.damage << std::endl;
+            std::cout << "Charge Time: " << loot.bow.charge_time << std::endl;
+            std::cout << "Distance: " << loot.bow.distance << std::endl;
+            break;
+        
+        case Item::ItemType::eSpell:
+            std::cout << "---SPELL---\n";
+            std::cout << "Damage: " << loot.spell.damage << std::endl;
+            std::cout << "Element: ";
+            switch (loot.spell.element) {
+                case Item::Spell::Element::Air:
+                    std::cout << "Air\n";
+                    break;
+
+                case Item::Spell::Element::Earth:
+                    std::cout << "Earth\n";
+                    break;
+
+                case Item::Spell::Element::Fire:
+                    std::cout << "Fire\n";
+                    break;
+
+                case Item::Spell::Element::Water:
+                    std::cout << "Water\n";
+                    break;
+            }
+            std::cout << "Distance: " << loot.spell.distance << std::endl;
+            break;
+    }
+
+    std::cout << std::endl;
+}
+
+void task27() {
+    std::srand( time(nullptr) );
+    const int item_size = 5; 
+    Item items[item_size];
+    for (int i = 0; i < item_size; i++) {
+        items[i] = getRandomItem();
+        printItem(items[i]);
+    }
 }
 
 enum Order {
