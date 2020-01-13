@@ -684,15 +684,15 @@ void initStudent(Student* s) {
     if (rand() % 3 == 0) s->sec[0] = 2;
 }
 
-void printStudent(const Student & s) {
+void printStudent(Student s) {
     std::cout << s.name << '\t' << s.group << '\n';
 }
 
-bool studentCmp(const Student & s1, const Student & s2) {
+bool studentCmp(Student s1, Student s2) {
     return strcmp(s1.name, s2.name) >= 0;
 }
 
-bool hasBadMarks(const Student & s) {
+bool hasBadMarks(Student s) {
     for (int i = 0; i < 5; i++) {
         if (s.sec[i] < 3) return true;
     }
@@ -716,16 +716,220 @@ void task25() {
     }
 }
 
-void task26() {
+struct IntArray {
+    int *data;
+    int size;
+};
 
+void create(IntArray* arr, int size) {
+    arr->data = new int[size];
+    arr->size = size;
+}
+
+void checkIntArrayIndex(IntArray* arr, int index) {
+    if (index < 0 || index >= arr->size) {
+        std::cout << "! IntArray: index out of bounds !\n";
+        throw "IntArray: index out of bounds";
+    }
+}
+
+int get(IntArray* arr, int index) {
+    checkIntArrayIndex(arr, index);
+
+    return arr->data[index];
+}
+
+void set(IntArray* arr, int index, int value) {
+    checkIntArrayIndex(arr, index);
+
+    arr->data[index] = value;
+}
+
+void print(IntArray* arr) {
+    std::cout << "[";
+    for (int i = 0; i < arr->size; i++) {
+        std::cout << arr->data[i];
+        if (i != arr->size - 1) std::cout << ", ";
+    }
+    std::cout << "]\n";
+}
+
+void resize(IntArray* arr, int newSize) {
+    if (newSize < 0) throw "IntArray: newSize is negative";
+
+    int* newData = new int[newSize];
+    if (newSize <= arr->size) {
+        for (int i = 0; i < newSize; i++) newData[i] = arr->data[i];
+    }
+    else {
+        for (int i = 0; i < arr->size; i++) newData[i] = arr->data[i];
+        for (int i = arr->size; i < newSize; i++) newData[i] = 0;
+    }
+
+    delete[] arr->data;
+    arr->data = newData;
+    arr->size = newSize;
+}
+
+void free(IntArray* arr) {
+    if (arr->data == nullptr) return;
+
+    delete[] arr->data;
+    arr->size = 0;
+}
+
+void task26() {
+    IntArray intArray;
+    create(&intArray, 30);
+
+    for (int i = 0; i < 30; i++) set(&intArray, i, i + 1);
+    print(&intArray);
+
+    resize(&intArray, 50);
+    print(&intArray);
+
+    resize(&intArray, 10);
+    print(&intArray);
+
+    free(&intArray);
 }
 
 void task27() {
 
 }
 
-void task28() {
+enum Order {
+    ASC,
+    DESC
+};
 
+int getRandomIndex(int length) {
+    return std::rand() % length;
+}
+
+void BozoSort(int arr[], int length, Order order = ASC) {
+    bool isSorted = false;
+    while (!isSorted) {
+        int first = getRandomIndex(length);
+        int second = getRandomIndex(length);
+
+        if (first == second) continue;
+
+        arr[first] += arr[second];
+        arr[second] = arr[first] - arr[second];
+        arr[first] -= arr[second];
+
+        isSorted = true;
+        for (int i = 1; i < length; i++) {
+            if (order == ASC) {
+                if (arr[i - 1] > arr[i]) {
+                    isSorted = false;
+                    break;
+                }
+            }
+            else {
+                if (arr[i - 1] < arr[i]) {
+                    isSorted = false;
+                    break;
+                }
+            }
+        }
+    }
+
+    for (int i = 0; i < length; i++) std::cout << arr[i] << " ";
+    std::cout << std::endl;
+}
+
+void BozoSort(std::vector<int> vector, Order order = ASC) {
+    int length = vector.size();
+
+    bool isSorted = false;
+    while (!isSorted) {
+        int first = getRandomIndex(length);
+        int second = getRandomIndex(length);
+
+        if (first == second) continue;
+
+        vector[first] += vector[second];
+        vector[second] = vector[first] - vector[second];
+        vector[first] -= vector[second];
+
+        isSorted = true;
+        for (int i = 1; i < length; i++) {
+            if (order == ASC) {
+                if (vector[i - 1] > vector[i]) {
+                    isSorted = false;
+                    break;
+                }
+            }
+            else {
+                if (vector[i - 1] < vector[i]) {
+                    isSorted = false;
+                    break;
+                }
+            }
+        }
+    }
+
+    for (int i = 0; i < length; i++) std::cout << vector[i] << " ";
+    std::cout << std::endl;
+}
+
+void BozoSort(int* a, int* b, int* c, Order order = ASC) {
+    int* pointers[] = {a, b, c};
+
+    bool isSorted = false;
+    while (!isSorted) {
+        int* first = pointers[getRandomIndex(3)];
+        int* second = pointers[getRandomIndex(3)];
+
+        if (first == second) continue;
+
+        *first += *second;
+        *second = *first - *second;
+        *first -= *second;
+
+        if (order == ASC)
+            isSorted = (*a <= *b && *b <= *c);
+        else
+            isSorted = (*a >= *b && *b >= *c);
+    }
+
+    std::cout << *a << " " << *b << " " << *c << std::endl;
+}
+
+void task28() {
+    std::srand( time(nullptr) );
+    int n;
+    std::cin >> n;
+
+    int* arr = new int[n];
+    std::vector<int> vector(n);
+    int a, b, c;
+
+    for (int i = 0; i < n; i++) {
+        int tmp;
+        std::cin >> tmp;
+
+        arr[i] = tmp;
+        vector[i] = tmp;
+    }
+    std::cout << std::endl;
+
+    a = arr[0];
+    b = arr[1];
+    c = arr[2];
+
+    BozoSort(arr, n, ASC);
+    BozoSort(arr, n, DESC);
+
+    BozoSort(vector, ASC);
+    BozoSort(vector, DESC);
+
+    BozoSort(&a, &b, &c, ASC);
+    BozoSort(&a, &b, &c, DESC);
+
+    delete[] arr;
 }
 
 void task29() {
