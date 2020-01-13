@@ -837,7 +837,7 @@ Item getRandomItem() {
         case Item::ItemType::eSword:
             it.sword.damage = std::rand() % 50 + 50;
             break;
-        
+
         case Item::ItemType::eBow:
             it.bow.damage = std::rand() % 20 + 70;
             it.bow.charge_time = std::rand() % 3 + 1;
@@ -867,7 +867,7 @@ void printItem(Item loot) {
             std::cout << "Charge Time: " << loot.bow.charge_time << std::endl;
             std::cout << "Distance: " << loot.bow.distance << std::endl;
             break;
-        
+
         case Item::ItemType::eSpell:
             std::cout << "---SPELL---\n";
             std::cout << "Damage: " << loot.spell.damage << std::endl;
@@ -898,7 +898,7 @@ void printItem(Item loot) {
 
 void task27() {
     std::srand( time(nullptr) );
-    const int item_size = 5; 
+    const int item_size = 5;
     Item items[item_size];
     for (int i = 0; i < item_size; i++) {
         items[i] = getRandomItem();
@@ -1047,11 +1047,12 @@ void task29() {
 int wordCount;
 
 char* strtok(char* string, const char* delim) {
-    static char* s_lastPos;
+    static char* s_lastPos = nullptr;
     if (string != nullptr) {
         s_lastPos = string;
         wordCount = 0;
     }
+    if (s_lastPos == nullptr) return nullptr;
 
     char* startPos = nullptr;
 
@@ -1091,8 +1092,9 @@ char* strtok(char* string, const char* delim) {
     }
 
     // Если до конца строки не было найдено разделителей - остаток строки и есть лексема
-    s_lastPos = string + strlen(string);
+    s_lastPos = nullptr;
     wordCount++;
+
     return startPos;
 }
 
